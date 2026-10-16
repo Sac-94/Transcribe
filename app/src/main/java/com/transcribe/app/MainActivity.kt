@@ -70,6 +70,13 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("transcribe_prefs", MODE_PRIVATE)
         loadTheme()
 
+        // When launched by sharing an audio file, present as a small floating window
+        // on top of the app the user was using instead of taking over full screen.
+        val isSharedLaunch = intent?.action == Intent.ACTION_SEND || intent?.action == Intent.ACTION_SEND_MULTIPLE
+        if (isSharedLaunch) {
+            setTheme(R.style.Theme_Transcribe_Floating)
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
