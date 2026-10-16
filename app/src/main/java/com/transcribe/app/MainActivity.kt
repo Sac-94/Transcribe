@@ -65,20 +65,32 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sharedPreferences = getSharedPreferences("transcribe_prefs", MODE_PRIVATE)
-        loadTheme()
-
-        // When launched by sharing an audio file, present as a small floating window
-        // on top of the app the user was using instead of taking over full screen.
+        // Decide theme before super.onCreate so AppCompat applies it correctly.
         val isSharedLaunch = intent?.action == Intent.ACTION_SEND || intent?.action == Intent.ACTION_SEND_MULTIPLE
         if (isSharedLaunch) {
             setTheme(R.style.Theme_Transcribe_Floating)
         }
 
+        super.onCreate(savedInstanceState)
+
+        sharedPreferences = getSharedPreferences("transcribe_prefs", MODE_PRIVATE)
+        loadTheme()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (isSharedLaunch) {
+            window?.let { w ->
+                val dm = resources.displayMetrics
+                val width = (dm.widthPixels * 0.92).toInt()
+                val height = (dm.heightPixels * 0.78).toInt()
+                w.setLayout(width, height)
+                w.setGravity(android.view.Gravity.CENTER)
+                w.setBackgroundDrawableResource(android.R.color.transparent)
+                w.addFlags(android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                w.setDimAmount(0.35f)
+            }
+        }
 
         loadApiKeys()
         setupUI()
