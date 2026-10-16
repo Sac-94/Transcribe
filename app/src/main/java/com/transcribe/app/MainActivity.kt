@@ -171,6 +171,10 @@ class MainActivity : AppCompatActivity() {
         binding.historyButton.setOnClickListener {
             showHistory()
         }
+
+        binding.translateAppButton.setOnClickListener {
+            openInGoogleTranslate(binding.resultText.text.toString())
+        }
     }
 
     private fun setupLanguageSpinner() {
@@ -268,15 +272,20 @@ class MainActivity : AppCompatActivity() {
                     }
                     val targetLang =
                         targetLanguages.getOrElse(binding.targetLanguageSpinner.selectedItemPosition) { targetLanguages[0] }.second
-                    val googleKey = getGoogleKey()
-                    val translated = if (googleKey.isNotEmpty()) {
-                        try {
-                            GoogleTranslateApi.translate(transcription, googleKey, targetLang)
-                        } catch (e: Exception) {
-                            "Translation failed: ${e.message}"
-                        }
+                    val useApp = binding.useTranslateAppSwitch.isChecked
+                    val translated = if (useApp) {
+                        "(Use 'GTranslate' button to translate in Google Translate app)"
                     } else {
-                        "(Translation disabled - no API key)"
+                        val googleKey = getGoogleKey()
+                        if (googleKey.isNotEmpty()) {
+                            try {
+                                GoogleTranslateApi.translate(transcription, googleKey, targetLang)
+                            } catch (e: Exception) {
+                                "Translation failed: ${e.message}"
+                            }
+                        } else {
+                            "(Translation disabled - no API key)"
+                        }
                     }
 
                     if (currentUris.size > 1) {
@@ -401,6 +410,26 @@ class MainActivity : AppCompatActivity() {
             JSONArray(raw)
         } catch (_: Exception) {
             JSONArray()
+        }
+    }
+
+    private fun openInGoogleTranslate(text: String) {
+        val trimmed = text.removePrefix("Original:").trim()
+        if (trimmed.isBlank()) {
+            Toast.makeText(this, "Nothing to translate", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val targetLang = targetLanguages.getOrElse(binding.targetLanguageSpinner.selectedItemPosition) { targetLanguages[0] }.second
+        val appIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, trimmed)
+            setPackage("com.google.android.apps.translate")
+        }
+        if (appIntent.resolveActivity(packageManager) != null) {
+            startActivity(appIntent)
+        } else {
+            val url = "https://translate.google.com/?sl=auto&tl=$targetLang&text=${Uri.encode(trimmed)}&op=translate"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
     }
 

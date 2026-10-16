@@ -192,6 +192,17 @@
                     app:layout_constraintTop_toBottomOf="@id/targetLanguageLabel" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/useTranslateAppSwitch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Use Google Translate app instead of API"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/targetLanguageSpinner" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/toggleTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -200,7 +211,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/targetLanguageSpinner"
+                    app:layout_constraintTop_toBottomOf="@id/useTranslateAppSwitch"
                     android:paddingStart="0dp"
                     android:paddingEnd="8dp"
                     app:thumbTint="?attr/colorOnSecondaryContainer"
@@ -289,6 +300,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="History" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/translateAppButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="GTranslate" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
