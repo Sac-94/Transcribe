@@ -11,28 +11,39 @@ import java.util.concurrent.TimeUnit
 object ElevenLabsApi {
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(60, TimeUnit.SECONDS)
+        .readTimeout(120, TimeUnit.SECONDS)
+        .writeTimeout(120, TimeUnit.SECONDS)
         .build()
 
-    fun transcribe(audioBytes: ByteArray, fileName: String, apiKey: String): String {
+    fun transcribe(
+        audioBytes: ByteArray,
+        fileName: String,
+        apiKey: String,
+        languageCode: String? = null
+    ): String {
         val mimeType = when {
-            fileName.endsWith(".mp3") -> "audio/mpeg"
-            fileName.endsWith(".wav") -> "audio/wav"
-            fileName.endsWith(".ogg") || fileName.endsWith(".opus") -> "audio/ogg"
-            fileName.endsWith(".m4a") || fileName.endsWith(".aac") -> "audio/mp4"
-            fileName.endsWith(".flac") -> "audio/flac"
+            fileName.endsWith(".mp3", ignoreCase = true) -> "audio/mpeg"
+            fileName.endsWith(".wav", ignoreCase = true) -> "audio/wav"
+            fileName.endsWith(".ogg", ignoreCase = true) || fileName.endsWith(".opus", ignoreCase = true) -> "audio/ogg"
+            fileName.endsWith(".m4a", ignoreCase = true) || fileName.endsWith(".aac", ignoreCase = true) -> "audio/mp4"
+            fileName.endsWith(".flac", ignoreCase = true) -> "audio/flac"
+            fileName.endsWith(".webm", ignoreCase = true) -> "audio/webm"
             else -> "audio/mpeg"
         }
 
         val audioBody = audioBytes.toRequestBody(mimeType.toMediaType())
         val filePart = MultipartBody.Part.createFormData("file", fileName, audioBody)
 
-        val requestBody = MultipartBody.Builder()
+        val builder = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addPart(filePart)
             .addFormDataPart("model_id", "scribe_v1")
-            .build()
+
+        if (!languageCode.isNullOrBlank()) {
+            builder.addFormDataPart("language_code", languageCode)
+        }
+
+        val requestBody = builder.build()
 
         val request = Request.Builder()
             .url("https://api.elevenlabs.io/v1/speech-to-text")
@@ -40,14 +51,29 @@ object ElevenLabsApi {
             .post(requestBody)
             .build()
 
-        val response = client.newCall(request).execute()
-        val body = response.body?.string()
-
-        if (!response.isSuccessful) {
-            throw Exception("ElevenLabs API error: $body")
+        client.newCall(request).execute().use { response ->
+            val body = response.body?.string()
+            if (!response.isSuccessful) {
+                throw Exception("ElevenLabs API error (${response.code}): ${body ?: ""}")
+            }
+            val json = JSONObject(body ?: "{}")
+            val text = json.optString("text", "")
+            if (text.isNotBlank()) return text
+            // Fallback: concatenate transcript segments if present
+            val segments = json.optJSONArray("segments") ?: json.optJSONArray("transcripts")
+            if (segments != null) {
+                val sb = StringBuilder()
+                for (i in 0 until segments.length()) {
+                    val seg = segments.optJSONObject(i)
+                    val t = seg?.optString("text", "") ?: segments.optString(i, "")
+                    if (t.isNotBlank()) {
+                        if (sb.isNotEmpty()) sb.append(" ")
+                        sb.append(t.trim())
+                    }
+                }
+                if (sb.isNotEmpty()) return sb.toString()
+            }
+            return ""
         }
-
-        val json = JSONObject(body ?: "")
-        return json.optString("text", "")
     }
 }

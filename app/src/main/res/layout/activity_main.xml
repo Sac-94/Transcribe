@@ -170,6 +170,27 @@
                         android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/targetLanguageLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Target language"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/googleApiInput" />
+
+                <Spinner
+                    android:id="@+id/targetLanguageSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/targetLanguageLabel" />
+
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/toggleTheme"
                     android:layout_width="0dp"
@@ -179,7 +200,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/googleApiInput"
+                    app:layout_constraintTop_toBottomOf="@id/targetLanguageSpinner"
                     android:paddingStart="0dp"
                     android:paddingEnd="8dp"
                     app:thumbTint="?attr/colorOnSecondaryContainer"
@@ -227,6 +248,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clearButton" />
 
+        <LinearLayout
+            android:id="@+id/actionRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/copyTranscriptionButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Copy" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/copyTranslationButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Copy Tr." />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Share" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/historyButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="History" />
+        </LinearLayout>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/transcriptionCard"
             android:layout_width="0dp"
@@ -237,7 +301,7 @@
             app:cardBackgroundColor="?attr/colorSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progressBar">
+            app:layout_constraintTop_toBottomOf="@id/actionRow">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
