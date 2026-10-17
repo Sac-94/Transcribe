@@ -20,8 +20,11 @@
         <item name="colorOutline">@color/outline</item>
     </style>
 
-
-    <style name="Theme.Transcribe.Floating" parent="Theme.Material3.DayNight.Dialog">
+    <!--
+        The share window. A floating (dialog-style) activity: the chat app underneath stays
+        visible, dimmed, and the card in activity_share.xml sits at the bottom of the screen.
+    -->
+    <style name="Theme.Transcribe.Popup" parent="Theme.Material3.DayNight.Dialog">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorPrimaryContainer">@color/primary_container</item>
@@ -41,8 +44,8 @@
         <item name="colorOutline">@color/outline</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.4</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
