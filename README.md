@@ -19,6 +19,3 @@ Translation works two ways:
 - **Google Translate app (default, no key):** the transcript is handed to the installed Google Translate app. The app uses the language pair last chosen inside it; the target-language setting here only applies to the browser fallback when Google Translate isn't installed.
 - **Cloud Translation API (optional):** turn off the Translate-app switch and add a Google Cloud API key to get the translation shown directly in the card.
 
-## Build
-
-Open in Android Studio, or run `./gradlew assembleDebug` with the Android SDK installed.
