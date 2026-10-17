@@ -227,13 +227,17 @@ class MainActivity : AppCompatActivity() {
         if (processingJob?.isActive == true) return
         persistTypedKeys()
         if (currentUris.isEmpty()) {
-            binding.resultText.setText(R.string.error_no_file_selected)
+            Toast.makeText(this, R.string.error_no_file_selected, Toast.LENGTH_SHORT).show()
             return
         }
 
         val uris = currentUris.toList()
         setProcessing(true)
-        showResult("", null)
+        binding.resultText.text = ""
+        binding.translatedText.text = ""
+        binding.transcriptionCard.isVisible = true
+        binding.translationCard.isVisible = false
+        binding.translateAppButton.isVisible = false
 
         processingJob = lifecycleScope.launch {
             try {
@@ -278,6 +282,14 @@ class MainActivity : AppCompatActivity() {
             settings.useTranslateApp -> getString(R.string.translate_with_app_hint)
             else -> getString(R.string.translate_no_key_hint)
         }
+        setResultsVisible(transcript.isNotEmpty() || translation != null || translationError != null)
+    }
+
+    /** The result cards and the Translate button stay hidden until there is something to show. */
+    private fun setResultsVisible(visible: Boolean) {
+        binding.transcriptionCard.isVisible = visible
+        binding.translationCard.isVisible = visible
+        binding.translateAppButton.isVisible = visible
     }
 
     private fun openInGoogleTranslate() {

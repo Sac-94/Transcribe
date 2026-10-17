@@ -49,4 +49,17 @@
     <string name="history_clear">Clear history</string>
     <string name="history_cleared">History cleared</string>
     <string name="share_chooser_title">Share transcription</string>
+
+    <!-- Full app labels -->
+    <string name="audio_file_label">Audio file</string>
+    <string name="settings_title">Settings</string>
+    <string name="hint_elevenlabs_key">ElevenLabs API key</string>
+    <string name="hint_google_api_key">Google Cloud API key</string>
+    <string name="target_language_label">Target language</string>
+    <string name="use_translate_app_label">Use the Google Translate app (no API key)</string>
+    <string name="dark_mode_label">Dark mode</string>
+    <string name="transcription_label">Transcription</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_pick_audio">Pick an audio file</string>
+    <string name="action_copy_translation">Copy translation</string>
 </resources>
