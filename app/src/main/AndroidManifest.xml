@@ -2,27 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <application
+        android:name=".TranscribeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Transcribe">
 
+        <!-- The full app: settings, history, and picking audio files by hand. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize"
-            android:resizeableActivity="true">
-
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!--
+            The share target. It opens as a small window on top of whatever app shared the
+            audio (WhatsApp, Telegram, ...). Standard launch mode on purpose: the window joins
+            the sender's task, so Back / tapping outside returns straight to the chat.
+        -->
+        <activity
+            android:name=".ShareActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:label="@string/share_label"
+            android:theme="@style/Theme.Transcribe.Popup">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

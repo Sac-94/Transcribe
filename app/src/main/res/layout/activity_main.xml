@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Transcribe &amp; translate any audio to English"
+            android:text="Transcribe voice messages and translate them"
             android:textSize="14sp"
             android:textColor="?attr/colorOnSurface"
             android:alpha="0.6"
@@ -196,7 +196,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Use Google Translate app instead of API"
+                    android:text="Translate with the Google Translate app (no API key)"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -307,7 +307,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="GTranslate" />
+                android:text="Translate" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -376,7 +376,7 @@
                     android:id="@+id/translatedLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="English Translation"
+                    android:text="Translation"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -408,7 +408,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:lineHeight="18sp"
-            android:text="Share any audio message from WhatsApp, Telegram, etc. to this app.\nIt will transcribe the audio and translate the text to English."
+            android:text="In WhatsApp, Telegram or any chat app: select a voice message, tap Share and choose Transcribe.\nA small window opens over the chat with the text, ready to copy or translate."
             android:textSize="12sp"
             android:textColor="?attr/colorOnSurface"
             android:alpha="0.5"

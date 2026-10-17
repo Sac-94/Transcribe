@@ -21,4 +21,5 @@
     <color name="on_error">#601410</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="popup_surface">#2B2930</color>
 </resources>

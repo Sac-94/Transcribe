@@ -21,4 +21,5 @@
     <color name="outline">#79747E</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="popup_surface">#F3EDF7</color>
 </resources>
